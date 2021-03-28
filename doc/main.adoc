@@ -1,0 +1,30 @@
+= Learning Advanced REST API with Python, Django, Django REST Framework and Docker
+:source-highlighter: highlightjs
+Himal Shakya
+:toc: left
+
+This is a write-up about using Djano, Django REST Frameowork and using Docker as descibed in https://www.udemy.com/course/django-python-advanced/[Build a Backend REST API with Python & Django - Advanced,window=_blank]
+
+image::django-logo-negative.svg[Django]
+image::django-rest-framework.png[Django Rest Frameworkd]
+
+---
+
+Resources Used::
+* https://www.udemy.com/course/django-python-advanced/[Build a Backend REST API with Python & Django - Advanced,window=_blank]
+
+---
+
+include::initial_setup.adoc[]
+// include::webpack.adoc[]
+// include::part02.adoc[]
+// include::part03.adoc[]
+// include::part04.adoc[]
+// include::part05.adoc[]
+// include::part06.adoc[]
+// include::part07.adoc[]
+// include::part08.adoc[]
+// include::part09.adoc[]
+// include::part10.adoc[]
+// include::part11.adoc[]
+// include::part12.adoc[]

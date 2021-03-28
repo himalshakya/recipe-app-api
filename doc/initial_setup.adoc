@@ -1,0 +1,91 @@
+== Inital Setup
+
+The initial setup will make a setup in your local system and a Dockerfile.
+
+In Github create a repository, initializing it with a README.md file, a .gitignore file for python, and a license (MIT License).
+
+=== Setting your own local system
+
+In your own filesystem, create a folder to store all your work, then git clone the repository to this folder.
+
+Then in this folder create a virtual environment using the command, here a virutal environment named venv is being created
+
+[source,bash]
+----
+virtualenv venv
+----
+
+This will create a virtual environment, switch to this virtual environment in Windows, using the following command.
+
+[source,bash]
+----
+.\venv\Scripts\activate
+----
+
+Then install Django and Django REST framework into this environment using the following command.
+
+[source,bash]
+----
+pip install Django djangorestframework
+----
+
+After this create a requirments.txt file, using the following command
+
+[source,bash]
+----
+pip freeze > requirements.txt
+----
+
+=== Setting your a Dockerfile
+
+Create a Dockerfile in the root directory, with the name Dockerfile. The contents of the Dockerfile should be
+[source,Dockerfile]
+----
+FROM python:3.9-alpine                        # <1>
+
+LABEL author="HIMAL SHAKYA"                   # <2>
+
+ENV PYTHONUNBUFFERED 1
+
+COPY ./requirements.txt /tmp/requirements.txt # <3>
+RUN pip install -r /tmp/requirements.txt      # <4>
+
+RUN adduser -D app_user                       # <5>
+WORKDIR /home/app_user                        # <6>
+USER app_user                                 # <7>
+
+COPY ./app /home/app                          # <8>
+----
+<1> Choosing python 3.9 alpine as the base Docker image
+<2> Using LABEL and MAINTAINER is deprecated
+<3> Copy requirements.txt from local system to Docker iamge
+<4> Install python packages into docker using requirements.txt
+<5> Create a user, and use that user as the main user, as the default user is root and should not be used for best practices
+<6> Switching directory to user's home directory
+<7> Switching user from root to app_user
+<8> Copying application files in app folder to Docker's app folder
+
+=== Setting your a docker-compose file
+
+Create a docker-compose.yml file in the root directory. The contents for the docker-compose should be initally as follows:
+
+[source, docker-compose.yml]
+----
+version: "3"                                                  # <1>
+
+services:
+  app:                                                        # <2>
+    build:
+      context: .
+    ports:
+      - "8000:8000"                                           # <3>
+    volumes:
+      - ./app:/home/app_user/                                 # <4>
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"         # <5>
+----
+<1> Version of docker-compose we will be using
+<2> Name of the app
+<3> Port being exposed
+<4> The local system folder "app" is being mapped to "/home/appuser" folder
+<5> The command to run django
